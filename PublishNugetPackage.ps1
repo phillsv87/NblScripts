@@ -7,10 +7,14 @@ param(
 
 $ErrorActionPreference = "Stop"
 
+if(Test-Path -Path "~/.nugetkey"){
+    Write-Host "Use key ~/.nugetkey"
+    $nugetKey=(Get-Content "~/.nugetkey" -Raw).Trim()
+}
 
 if(!$nugetKey){
     Write-Host "Use key $env:NblKeyDir/nuget.key"
-    $nugetKey=Get-Content "$env:NblKeyDir/nuget.key" -Raw
+    $nugetKey=(Get-Content "$env:NblKeyDir/nuget.key" -Raw).Trim()
 }
 
 if(!$nugetKey){
