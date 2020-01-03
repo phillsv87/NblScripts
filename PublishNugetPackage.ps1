@@ -1,3 +1,4 @@
+#!/usr/local/bin/pwsh
 param(
     [string]$projectDir,
     [string]$nugetKey=$null,
