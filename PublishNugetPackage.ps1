@@ -3,10 +3,20 @@ param(
     [string]$projectDir,
     [string]$nugetKey=$null,
     [switch]$noPush,
-    [switch]$noPack
+    [switch]$noPack,
+    [switch]$noCheckNblCommon
 )
 
 $ErrorActionPreference = "Stop"
+
+if(!$noCheckNblCommon -and (Test-Path "~/.nblcommon.csproj")){
+    [xml]$nc=Get-Content "~/.nblcommon.csproj"
+    $dr=$nc.Project.PropertyGroup.DirectNblRef
+    if( $dr -and ($dr.ToUpper() -eq "TRUE"))
+    {
+        throw "DirectNblRef is enabled in ~/.nblcommon.csproj. This is not allowed durring package publishing"
+    }
+}
 
 if(Test-Path -Path "~/.nugetkey"){
     Write-Host "Use key ~/.nugetkey"
