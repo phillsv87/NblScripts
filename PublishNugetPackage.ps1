@@ -35,8 +35,11 @@ if(!$nugetKey){
 Push-Location $projectDir
 try{
     [xml]$proj = Get-Content *.csproj
-    $Version=$proj.Project.PropertyGroup.Version
-    $PackageId=$proj.Project.PropertyGroup.PackageId
+    [string]$Version=$proj.Project.PropertyGroup.Version
+    [string]$PackageId=$proj.Project.PropertyGroup.PackageId
+
+    $Version=$Version.Trim()
+    $PackageId=$PackageId.Trim()
 
     if(!$Version){
         throw "Project.PropertyGroup.Version not set"
